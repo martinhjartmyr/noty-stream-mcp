@@ -17,7 +17,9 @@ export class NotyApiClient {
   }
 
   private async request<T>(method: string, url: string, data?: any, params?: Record<string, any>): Promise<ApiResponse<T>> {
-    const fullUrl = new URL(url, this.config.apiUrl)
+    const baseUrl = this.config.apiUrl.endsWith('/') ? this.config.apiUrl : this.config.apiUrl + '/'
+    const endpoint = url.startsWith('/') ? url.slice(1) : url
+    const fullUrl = new URL(endpoint, baseUrl)
     
     // Add query parameters
     if (params) {
